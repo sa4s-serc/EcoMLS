@@ -26,6 +26,7 @@ class ImageProcessor:
 
         pyRAPL.setup()
 
+        self.logs = {'yolov5n':'log_yolov5n.csv', 'yolov5s':'log_yolov5s.csv', 'yolov5m':'log_yolov5m.csv', 'yolov5l':'log_yolov5l.csv', 'yolov5x':'log_yolov5x.csv'}
         self.make_header()
         self.model_n = {'yolov5n':1, 'yolov5s':1, 'yolov5m':1, 'yolov5l':1, 'yolov5x':1}
 
@@ -63,13 +64,21 @@ class ImageProcessor:
 
     def make_header(self):
         header = ["total_processed","input_rate","image_quality","file_size(kB)","current_model",
-                    "avg_conf","current_boxes","energy_consumption(J)","current_cpu",
+                    "total_conf","avg_conf","current_boxes","energy_consumption(J)","current_cpu",
                     "measure_duration(s)","current_time","start_time","absolute_time"]
 
         f = open("log.csv", "w")
         writer = csv.writer(f)
         writer.writerow(header)
         f.close()
+
+        # making separate log files to monitor each model
+        for i in self.logs.values():
+            f = open(i, "w")
+            writer = csv.writer(f)
+            writer.writerow(header)
+            f.close()
+
         return
 
 
@@ -92,6 +101,11 @@ class ImageProcessor:
 # 1,1.532711,11.277009,0.610662,50.0
 # 2,2.510857,18.160476,0.651521,50.0
 # 3,4.492237,34.170445,0.675032,50.0
+
+# 0,0.58142,5.400071,0.535623,50.0,5
+# 1,1.532711,11.277009,0.610662,50.0,6
+# 2,2.510857,18.160476,0.651521,50.0,7
+# 3,4.492237,34.170445,0.675032,50.0,8
 
 # 0,0.58142,5.400071,0.6104023860466139,2.534295
 # 1,1.532711,11.277009,0.6575370732300124,5.748704
@@ -151,12 +165,12 @@ class ImageProcessor:
                 # detection = results.pandas().xyxy[0]
                 # confidences = detection['confidence'].tolist()
                 confidences = results[0].boxes.conf.tolist()
-                current_conf = sum(confidences)
+                self.current_conf = sum(confidences)  ####
                 self.current_boxes = len(confidences)
                 print(self.current_boxes)
 
                 if (self.current_boxes != 0):
-                    self.avg_conf = current_conf/self.current_boxes
+                    self.avg_conf = self.current_conf/self.current_boxes
                     print(self.avg_conf)
 
                 t = time.time()
@@ -164,7 +178,7 @@ class ImageProcessor:
                 self.start_time = t - self.start_time
                 self.absolute_time = t - self.global_start_time
 
-                self.update_knowledge()
+                # self.update_knowledge()
 
                 # return detection.to_json(orient='records')
 
@@ -179,7 +193,7 @@ class ImageProcessor:
     # checks for the current image csv file in images folder, and if it exists, it sends the image_data to process_row function   
     def start_processing(self):
 
-        while True:
+        while self.total_processed < 1000:
 
             r = 0
             image_path = f"images/queue{self.total_processed}.csv"
@@ -210,7 +224,7 @@ class ImageProcessor:
                     first_row = [int(x) for x in first_row]
                     first_row = bytes(first_row)
 
-                    # tracker object created by codecarbon library, starts tracking
+                    # tracker object created by pyRAPL library, starts tracking
                     measure = pyRAPL.Measurement('CPU')
                     measure.begin()
                     # Process the first row
@@ -221,10 +235,6 @@ class ImageProcessor:
                     print(self.file_size)
                     print(measure.result)
 
-                    # emissions = self.tracker.stop()
-                    # print(f"Emissions: {emissions} Kg")
-
-                    # emission_data = self.tracker.final_emissions_data 
                     pyRAPL_data = measure.result
                     self.energy_consumption = pyRAPL_data.pkg[0]/1000000
                     measure_duration = pyRAPL_data.duration/1000000
@@ -234,13 +244,22 @@ class ImageProcessor:
                     f = open("log.csv", "a")
                     f.write(
                     #     f'{self.total_processed},{self.input_rate[self.total_processed]},{self.image_quality},{self.current_model},{self.avg_conf},{self.current_boxes},{emission_data.emissions},{emission_data.emissions_rate},{self.current_cpu},{emission_data.cpu_power},{emission_data.cpu_energy},{emission_data.ram_power},{emission_data.ram_energy},{emission_data.energy_consumed},{self.current_time},{self.start_time},{self.absolute_time}\n')
-                          f'{self.total_processed},{self.input_rate[self.total_processed]},{self.image_quality},{self.file_size},{self.current_model},{self.avg_conf},{self.current_boxes},{self.energy_consumption},{self.current_cpu},{measure_duration},{self.current_time},{self.start_time},{self.absolute_time}\n')
+                        f'{self.total_processed},{self.input_rate[self.total_processed]},{self.image_quality},{self.file_size},{self.current_model},{self.current_conf},{self.avg_conf},{self.current_boxes},{self.energy_consumption},{self.current_cpu},{measure_duration},{self.current_time},{self.start_time},{self.absolute_time}\n')
+                    f.close()
+
+                    # writes the logs in a separate log file for each model.
+                    f = open(self.logs[self.current_model], "a")
+                    f.write(
+                        f'{self.total_processed},{self.input_rate[self.total_processed]},{self.image_quality},{self.file_size},{self.current_model},{self.current_conf},{self.avg_conf},{self.current_boxes},{self.energy_consumption},{self.current_cpu},{measure_duration},{self.current_time},{self.start_time},{self.absolute_time}\n')
                     f.close()
 
                     monitor_f = open("monitor.csv", "w")
                     writer = csv.writer(monitor_f)
+                    writer.writerow([self.total_processed])
                     writer.writerow([self.energy_consumption])
                     writer.writerow([self.avg_conf])
+                    writer.writerow([self.current_conf])
+                    writer.writerow([self.current_boxes])
                     monitor_f.close()
                     
                     # Delete the processed CSV image file from the folder
@@ -261,12 +280,16 @@ class ImageProcessor:
                 time.sleep(0.5)
                 continue
 
+        return
+
 if __name__ == '__main__':
 
     image_processor = ImageProcessor()
 
     # start processing the images.
     image_processor.start_processing()
+
+    print("Finished processing all images.")
 
 
     
