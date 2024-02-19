@@ -1,7 +1,7 @@
 # EcoMLS:  Self-Adaptation Approach for Architecting Green ML-Enabled Systems
 
 ### Meghana Tedla, Shubham Kulkarni, Karthik Vaidhyanathan
-
+---
 
 This repository contains the implementation of an object detection exemplar developed for our submission to Greens Workshop, co-located with ICSA24.
 
@@ -22,7 +22,7 @@ Result Storage: Temporarily retains processed data before final transfer.
 
 **Architecture of EcoMLS:**
 <div align="center">
-    <img src="EcoMLS_Architecture_Diagram.drawio.png" alt="Sample Image" width=400>
+    <img src="EcoMLS_Architecture_Diagram.drawio.png" alt="Sample Image" width=600>
 </div>
 
 
@@ -153,20 +153,20 @@ Our experimental log's can be found in Results directory. The log files are orga
 1. Plots showing the Trade-off between energy consumption (in Joules) and average confidence score for single state-of-the-art models and various approaches.
 
 <div align="center">
-  <img src="Results/Energy_vs_Confidence_Individual.png" alt="Sample Image" width=600>
+  <img src="Results/Energy_vs_Confidence_Individual.png" alt="Sample Image" width=800>
 </div>
 
 <div align="center">
-  <img src="Results/Energy_vs_Confidence_EcoMLS.png" alt="Sample Image" width=600>
+  <img src="Results/Energy_vs_Confidence_EcoMLS.png" alt="Sample Image" width=800>
 </div>
 
 <div align="center">
-  <img src="Results/Energy_vs_Confidence_NAIVE.png" alt="Sample Image" width=600>
+  <img src="Results/Energy_vs_Confidence_NAIVE.png" alt="Sample Image" width=800>
 </div>
 
 2. Trend of energy consumption with processed image requests.
 <div align="center">
-    <img src="Results/Energy_Consumption_Trend.png" alt="Sample Image" width=300>
+    <img src="Results/Energy_Consumption_Trend.png" alt="Sample Image" width=600>
 </div>
 
 
