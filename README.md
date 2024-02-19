@@ -1,7 +1,7 @@
 # EcoMLS:  Self-Adaptation Approach for Architecting Green ML-Enabled Systems
----
-## Meghana Tedla, Shubham Kulkarni, Karthik Vaidhyanathan
----
+
+### Meghana Tedla, Shubham Kulkarni, Karthik Vaidhyanathan
+
 
 This repository contains the implementation of an object detection exemplar developed for our submission to Greens Workshop, co-located with ICSA24.
 
@@ -32,7 +32,7 @@ Result Storage: Temporarily retains processed data before final transfer.
 - NAIVE3: Updating knowledge based on monitored average confidence and energy metrics.
 - EcoMLS: Building on NAIVE3 with $\epsilon$-greedy algorithm to employ explorartion and exploitation.
 
----
+
 
 ## Installation and  Set-up:
 ### Prerequisites:
@@ -70,7 +70,7 @@ sudo chmod -R a+r /sys/class/powercap/intel-rapl
 5. In the `EcoMLS` directory, create an empty folder named `images`. This folder will be used to store image data present in the queue.
 
 
----
+
 
 ## File Structure:
 - `EcoMLS`: 
@@ -88,7 +88,7 @@ sudo chmod -R a+r /sys/class/powercap/intel-rapl
     - Stores log files and energy metrics of the MAPE-K loop for various approaches, organized in subdirectories named by respective approaches.
 - `results.ipynb`:
     - Final result plots are presented here.
----
+
 ## Running EcoMLS - An Object Detection Prototype
 
 **Note**:
@@ -136,7 +136,7 @@ To facilitate the process of adaptation we run a MAPE-K loop. This loop involves
 ```bash
 python3 Monitor.py
 ```
----
+
 ## Results
 
 > [!TIP]
