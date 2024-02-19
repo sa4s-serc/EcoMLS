@@ -139,7 +139,7 @@ python3 Monitor.py
 
 ## Results
 
-> [!TIP]
+> [!NOTE]
 > ### Hardware Used
 > The experiments were conducted on a system equipped with an **Intel Core i7-11370H
 processor, NVIDIA GeForce RTX 3050 Ti 4GB Graphics, 16GB DDR4 3200MHz SDRAM**.
