@@ -91,10 +91,10 @@ sudo chmod -R a+r /sys/class/powercap/intel-rapl
 
 ## Running EcoMLS - An Object Detection Prototype
 
-**Note**:
-1. Before starting the prototype, ensure to empty the images folder.
-2. Upon running the prototype, `log.csv` and `MAPEK_energy.csv` files will be generated or overwritten in the EcoMLS directory if they already exist.
-3. To run `NAIVE1`, `NAIVE2`, and `NAIVE2`, replace `Analyzer.py` and `Planner.py` files in the `EcoMLS` directory with the files present in the `NAIVE1`, `NAIVE2`, and `NAIVE3` directories, respectively.
+>[!Note]
+> 1. Before starting the prototype, ensure to empty the images folder.
+> 2. Upon running the prototype, `log.csv` and `MAPEK_energy.csv` files will be generated or overwritten in the EcoMLS directory if they already exist.
+> 3. To run `NAIVE1`, `NAIVE2`, and `NAIVE2`, replace `Analyzer.py` and `Planner.py` files in the `EcoMLS` directory with the files present in the `NAIVE1`, `NAIVE2`, and `NAIVE3` directories, respectively.
 
 ### API Set-up
 To facilitate user interaction and provide a seamless experience, an API has been initiated.
