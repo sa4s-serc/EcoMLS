@@ -27,10 +27,10 @@ Result Storage: Temporarily retains processed data before final transfer.
 
 
 ### Approaches Tested
-- NAIVE1: Used a fixed `knowledge` for model switching.
-- NAIVE2: Updating knowledge based on monitored average confidence.
-- NAIVE3: Updating knowledge based on monitored average confidence and energy metrics.
-- EcoMLS: Building on NAIVE3 with $\epsilon$-greedy algorithm to employ explorartion and exploitation.
+1. **NAIVE1**: Used a fixed knowledge for model switching.
+2. **NAIVE2**: Updating knowledge based on monitored average confidence.
+3. **NAIVE3**: Updating knowledge based on monitored average confidence and energy metrics.
+4. **EcoMLS**: Building on NAIVE3 with $\epsilon$-greedy algorithm to employ explorartion and exploitation.
 
 
 
@@ -120,10 +120,23 @@ After executing the command, navigate to the URL http://0.0.0.0:8089, and click 
 
 ### Object Detection
 #### Set-up for single state-of-art Yolov5 models:
-The single state-of-the-art YOLOv5 models include `yolov5n`, `yolov5s`, `yolov5m`, `yolov5l`, and `yolov5x`. To run a specific model, paste its name in the `model.csv` file located in the `EcoMLS` directory. 
-#### Set-up for NAIVE1, NAIVE2, and NAIVE3 approaches:
-To execute the NAIVE1, NAIVE2, and NAIVE3 approaches, replace `Analyzer.py` and `Planner.py` files in the `EcoMLS` directory with the files present in the `NAIVE1`, `NAIVE2`, and `NAIVE3` directories, respectively.
+The single state-of-the-art YOLOv5 models include `yolov5n`, `yolov5s`, `yolov5m`, `yolov5l`, and `yolov5x`. 
 
+| Model                                                                                           | size<br><sup>(pixels) | mAP<sup>val<br>50-95 | mAP<sup>val<br>50 | Speed<br><sup>CPU b1<br>(ms) | Speed<br><sup>V100 b1<br>(ms) | Speed<br><sup>V100 b32<br>(ms) | params<br><sup>(M) | FLOPs<br><sup>@640 (B) |
+| ----------------------------------------------------------------------------------------------- | --------------------- | -------------------- | ----------------- | ---------------------------- | ----------------------------- | ------------------------------ | ------------------ | ---------------------- |
+| [YOLOv5n](https://github.com/ultralytics/yolov5/releases/download/v7.0/yolov5n.pt)              | 640                   | 28.0                 | 45.7              | **45**                       | **6.3**                       | **0.6**                        | **1.9**            | **4.5**                |
+| [YOLOv5s](https://github.com/ultralytics/yolov5/releases/download/v7.0/yolov5s.pt)              | 640                   | 37.4                 | 56.8              | 98                           | 6.4                           | 0.9                            | 7.2                | 16.5                   |
+| [YOLOv5m](https://github.com/ultralytics/yolov5/releases/download/v7.0/yolov5m.pt)              | 640                   | 45.4                 | 64.1              | 224                          | 8.2                           | 1.7                            | 21.2               | 49.0                   |
+| [YOLOv5l](https://github.com/ultralytics/yolov5/releases/download/v7.0/yolov5l.pt)              | 640                   | 49.0                 | 67.3              | 430                          | 10.1                          | 2.7                            | 46.5               | 109.1                  |
+| [YOLOv5x](https://github.com/ultralytics/yolov5/releases/download/v7.0/yolov5x.pt)              | 640                   | 50.7                 | 68.9              | 766                          | 12.1                          | 4.8                            | 86.7               | 205.7                  |
+|                                                                                                 |                       |                      |                   |                              |                               |                                |                    |                        |
+
+* To run a specific model, paste its name in the `model.csv` file located in the `EcoMLS` directory. 
+
+#### Set-up for NAIVE1, NAIVE2, and NAIVE3 approaches:
+* To execute the NAIVE1, NAIVE2, and NAIVE3 approaches, replace `Analyzer.py` and `Planner.py` files in the `EcoMLS` directory with the files present in the `NAIVE1`, `NAIVE2`, and `NAIVE3` directories, respectively.
+
+<br>
 Once the setup is completed, to run any of the single state-of-the-art YOLOv5 models, NAIVE approaches, or EcoMLS, use the following command from the `EcoMLS` directory:
 ```bash 
 python3 process.py
@@ -150,7 +163,7 @@ We have conducted are experiment on randomly selected 25,000 images from COCO201
 Our experimental log's can be found in Results directory. The log files are organized in subdirectories for each approach.
 
 
-1. Plots showing the Trade-off between energy consumption (in Joules) and average confidence score for single state-of-the-art models and various approaches.
+1. **Plots showing the Trade-off between energy consumption (in Joules) and average confidence score for single state-of-the-art models and various approaches.**
 
 <div align="center">
   <img src="Results/Energy_vs_Confidence_Individual.png" alt="Sample Image" width=800>
@@ -164,9 +177,11 @@ Our experimental log's can be found in Results directory. The log files are orga
   <img src="Results/Energy_vs_Confidence_NAIVE.png" alt="Sample Image" width=800>
 </div>
 
-2. Trend of energy consumption with processed image requests.
+<br>
+
+2. **Trend of energy consumption with processed image requests.**
 <div align="center">
-    <img src="Results/Energy_Consumption_Trend.png" alt="Sample Image" width=600>
+    <img src="Results/Energy_Consumption_Trend.png" alt="Sample Image" width=500>
 </div>
 
 
